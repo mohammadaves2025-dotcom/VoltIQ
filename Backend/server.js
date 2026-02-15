@@ -8,7 +8,7 @@ import predictRouter from './routes/predictRouter.js';
 //APP CONFIG
 const app = express();
 const port = process.env.PORT || 4000
-connectDB()
+await connectDB()
 
 
 //  MIDDLEWARES
