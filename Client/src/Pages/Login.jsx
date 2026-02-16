@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { FiZap } from "react-icons/fi";
@@ -19,7 +19,7 @@ const Login = ({ setToken }) => {
     try {
       if (mode === "register") {
         const res = await axios.post(
-          backendUrl + "/api/user/register",
+          `${backendUrl}/api/user/register`,
           { name, email, password }
         );
 
@@ -31,13 +31,13 @@ const Login = ({ setToken }) => {
         }
       } else {
         const res = await axios.post(
-          backendUrl + "/api/user/login",
+          `${backendUrl}/api/user/login`,
           { email, password }
         );
 
         if (res.data.success) {
           localStorage.setItem("token", res.data.token);
-          setToken(res.data.token)
+          setToken(res.data.token);
           toast.success("Login successful");
           navigate("/");
         } else {
@@ -49,44 +49,38 @@ const Login = ({ setToken }) => {
     }
   };
 
-
   return (
-    <div className="min-h-screen flex items-center justify-center relative bg-[#070B16] overflow-hidden">
-      {/* Logo */}
-              <div onClick={() => navigate('/')} className="flex items-center gap-2 cursor-pointer">
-                <FiZap className="text-yellow-400 text-2xl" />
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500 bg-clip-text text-transparent">
-                  VoltIQ
-                </h1>
-              </div>
+    <div className="min-h-screen relative flex items-start md:items-center justify-center bg-[#070B16] overflow-hidden pt-24 md:pt-0">
 
-      {/* Subtle Gradient Background */}
+      
+
+      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#0b1120] to-[#020617]" />
 
-      {/* Glow Accent */}
-      <div className="absolute w-[600px] h-[600px] bg-cyan-500/10 blur-[120px] rounded-full -top-40 -left-40" />
-      <div className="absolute w-[600px] h-[600px] bg-emerald-400/10 blur-[120px] rounded-full -bottom-40 -right-40" />
+      {/* Glow accents */}
+      <div className="absolute w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full -top-40 -left-40" />
+      <div className="absolute w-[500px] h-[500px] bg-emerald-400/10 blur-[120px] rounded-full -bottom-40 -right-40" />
 
-      <div className="relative w-full max-w-md">
+      <div className="relative w-full max-w-sm sm:max-w-md px-4 sm:px-0 z-10">
 
-        {/* Logo / Title */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+        {/* Heading */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
             Smart Energy AI
           </h1>
-          <p className="text-gray-400 mt-3 text-sm">
+          <p className="text-gray-400 mt-3 text-xs sm:text-sm">
             Predict and optimize your monthly electricity usage
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl">
 
           {/* Tabs */}
-          <div className="flex mb-8 bg-white/5 rounded-lg p-1">
+          <div className="flex mb-6 bg-white/5 rounded-lg p-1">
             <button
               onClick={() => setMode("login")}
-              className={`flex-1 py-2 rounded-md text-sm transition-all ${
+              className={`flex-1 py-2 rounded-md text-sm transition ${
                 mode === "login"
                   ? "bg-gradient-to-r from-emerald-400 to-cyan-400 text-black font-semibold"
                   : "text-gray-400"
@@ -96,7 +90,7 @@ const Login = ({ setToken }) => {
             </button>
             <button
               onClick={() => setMode("register")}
-              className={`flex-1 py-2 rounded-md text-sm transition-all ${
+              className={`flex-1 py-2 rounded-md text-sm transition ${
                 mode === "register"
                   ? "bg-gradient-to-r from-emerald-400 to-cyan-400 text-black font-semibold"
                   : "text-gray-400"
@@ -106,40 +100,40 @@ const Login = ({ setToken }) => {
             </button>
           </div>
 
-          <form onSubmit={submitHandler} className="space-y-5">
+          <form onSubmit={submitHandler} className="space-y-4">
 
             {mode === "register" && (
               <div>
-                <label className="text-sm text-gray-400">Full Name</label>
+                <label className="text-xs text-gray-400">Full Name</label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="mt-1 w-full bg-[#0f172a] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-cyan-400 focus:outline-none transition"
+                  className="mt-1 w-full bg-[#0f172a] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-cyan-400 focus:outline-none"
                 />
               </div>
             )}
 
             <div>
-              <label className="text-sm text-gray-400">Email Address</label>
+              <label className="text-xs text-gray-400">Email Address</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full bg-[#0f172a] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-cyan-400 focus:outline-none transition"
+                className="mt-1 w-full bg-[#0f172a] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-cyan-400 focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="text-sm text-gray-400">Password</label>
+              <label className="text-xs text-gray-400">Password</label>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full bg-[#0f172a] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-cyan-400 focus:outline-none transition"
+                className="mt-1 w-full bg-[#0f172a] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-cyan-400 focus:outline-none"
               />
             </div>
 
@@ -153,7 +147,7 @@ const Login = ({ setToken }) => {
           </form>
         </div>
 
-        {/* Footer note */}
+        {/* Footer */}
         <p className="text-center text-xs text-gray-500 mt-6">
           Powered by MERN + FastAPI + Random Forest ML
         </p>
