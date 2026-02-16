@@ -5,13 +5,24 @@ import connectDB from './config/mongodb.js';
 import userRouter from './routes/userRouter.js';
 import predictRouter from './routes/predictRouter.js';
 
-//APP CONFIG
+// APP CONFIG
 const app = express();
-const port = process.env.PORT || 4000
-await connectDB()
+// Note: 'port' variable isn't strictly needed for Vercel, but safe to leave.
+const port = process.env.PORT || 4000 
 
+// 1️⃣ SERVERLESS DB CONNECTION MIDDLEWARE
+// This ensures the DB is connected before any route runs, 
+// without blocking the initial file load.
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "Database connection failed" });
+    }
+});
 
-//  MIDDLEWARES
+// 2️⃣ MIDDLEWARES
 app.use(express.json())
 app.use(cors({
     origin: "*",
@@ -19,10 +30,9 @@ app.use(cors({
     credentials: true
 }));
 
-//API ENDPOINTS
+// 3️⃣ API ENDPOINTS
 app.use('/api/user', userRouter)
 app.use('/api/predict', predictRouter)
-
 
 app.get('/', (req, res) => {
     res.send("API working ")
