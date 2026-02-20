@@ -23,12 +23,12 @@ const Result = () => {
 
     const fetchPrediction = async () => {
       try {
-        const response = await axios.post(
-          `${backendUrl}/api/predict/predictenergy`,
-          { appliances, tariff }
-        );
+        const response = await axios.post(`${backendUrl}/api/predict/predictenergy`, { appliances, tariff });
+
         setPrediction(response.data);
+
       } catch (error) {
+
         console.error("Prediction Error:", error);
       } finally {
         setLoading(false);
@@ -37,7 +37,7 @@ const Result = () => {
 
     fetchPrediction();
 
-  // 👇 THIS is the key line
+    // 👇 THIS is the key line
   }, [location.key]);
 
   /* 🌟 LOADING SCREEN */
@@ -60,15 +60,20 @@ const Result = () => {
             Running Energy Prediction…
           </h1>
 
-          <p className="text-gray-400 mt-4 text-sm sm:text-base">
-            Our AI is analyzing your appliances.<br />
-            This may take a few seconds ⚡
+          <p className="text-gray-300 italic text-sm">
+            “We're currently initializing our cloud functions and establishing a
+            secure link to the Machine Learning server. This 'warm-up' ensures
+            your energy forecast is as accurate as possible.”
           </p>
 
           <div className="mt-10 bg-white/5 border border-white/10 rounded-xl p-5 backdrop-blur-lg">
             <p className="text-gray-300 italic text-sm">
-              “Electricity is really just organized lightning —  
-              please wait while we tame it.”
+              Electricity is really just organized lightning —
+              please wait while we tame it.
+            </p>
+
+            <p className="text-gray-300 italic text-sm">
+
             </p>
           </div>
         </div>

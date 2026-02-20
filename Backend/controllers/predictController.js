@@ -63,6 +63,9 @@ export const predictEnergy = async (req, res) => {
       payload
     );
 
+    console.log(response);
+    
+
     const predicted = response.data.predicted_monthly_kWh;
 
     res.status(200).json({
